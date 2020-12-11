@@ -1,0 +1,35 @@
+{% extends('base.html.twig') %}
+
+
+{% block title %} Forum's post {% endblock %}
+
+
+
+
+{% block body %}
+
+
+    <div class="bg-light w-75 mx-auto mt-3 p-4">
+        <h1 class="text-center mt-3">Your post</h1>
+        <form action="{{ path('post_action', {blog_id: data.blog_id}) }}" method="post">
+            <input type="hidden" name="token" value="{{ csrf_token('post_form') }}"  />
+            <div class="form-group row justify-content-md-center mt-4">
+                <textarea class="" name="blog_content" rows="8" cols="70">{{  data.blog_content }}</textarea>
+            </div>
+            <div class=" container mt-5 ">
+                <div class="row justify-content-md-center">
+                    <button type="submit" class="btn btn-outline-dark mr-2" name="submit_post">Submit Post</button>
+                    <button type="submit" class="btn btn-outline-dark " name="cancel_post">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}
+
+
+
+
+
+

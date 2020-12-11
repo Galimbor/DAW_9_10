@@ -1,0 +1,82 @@
+
+/************************Nav-bar*****************************************/
+
+
+.brand-container{
+  width:10%;
+}
+
+
+.font_qs{
+  font-family: 'Quicks: ;and', sans-serif;
+}
+
+.container-profile-pic{
+  margin-right: 5rem;
+}
+
+.username{
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+
+.carousel .carousel-inner{
+height:500px
+}
+.carousel-inner .carousel-item img{
+min-height:200px;
+  object-fit: cover;
+}
+
+@media(max-width:768px){
+.carousel .carousel-inner{
+
+height:auto;
+ }
+}
+
+.user-pic{
+ background-image: url("../images/usr_avatar.png");
+ height: 3.125rem;
+ width: 3.125rem;
+ margin-left: 1rem;
+ margin-top: 1rem;
+}
+
+.username{
+  margin-left: 5rem;
+  padding-top: 1.5rem;
+}
+
+.font_weight_b{
+  font-weight: bold;
+}
+
+.post-dates{
+  padding: 1rem 0 0 1rem;
+  clear: left;
+  margin-bottom: 0;
+}
+
+.post-description{
+  margin: 1.8rem auto;
+
+}
+
+.post-info{
+  padding-left: 22rem;
+}
+
+.button-center{
+  margin-left: 40rem;
+}
+
+
+.nav_titles{
+  font-size: 20px;
+}
+
+.font_size_20{
+  font-size: 30px;
+}
