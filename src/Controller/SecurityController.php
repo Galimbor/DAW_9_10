@@ -35,11 +35,7 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-        if(!$this->getUser())
-        {
-            $this->addFlash('error', 'You are already signed out.');
-            return $this->redirectToRoute('index');
-        }
+
         //I've got this configured already. Security.yaml is taking care of it.
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }

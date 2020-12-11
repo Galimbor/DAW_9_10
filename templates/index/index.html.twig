@@ -7,7 +7,7 @@
     {% block logged_user %}
         {% if app.user %}
             <li class="nav-item active mr-2 ">
-                <p class="nav-link my-auto"> Welcome <span class="font_weight_b">{{ UserDetails.username }}</span></p>
+                <p class="nav-link my-auto"> Welcome <span class="font_weight_b">{{ app.user.name}}</span></p>
             </li>
         {% endif %}
     {% endblock %}
@@ -44,7 +44,7 @@
                         <p class="">Post updated at: {{ user.updated_at }}</p>
                         <!-- The user.id in this case is the POST ID. -->
                         <a name="update_post"
-                           href="{{ path('post', {blog_id : user.id}) }}">{% if UserDetails.id is defined and UserDetails.id == user.userid %} Update Blog {% endif %} </a>
+                           href="{{ path('post', {blog_id : user.id}) }}">{% if app.user.id and app.user.id == user.userid %} Update Blog {% endif %} </a>
                     </div>
                 </div>
                 <div class=" col col-sm border">

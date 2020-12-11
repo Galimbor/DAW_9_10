@@ -23,7 +23,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/index", name="index")
+     * @Route("/", name="index")
      * @param PostRepository $postRepository
      * @param NavbarHelper $navbarHelper
      * @return Response
@@ -33,21 +33,18 @@ class BlogController extends AbstractController
         if (!$this->getUser()) {
             //The user isn't logged in
             $navbar = $navbarHelper->retrieveLoggedOutBar();
-            $UserDetails['isLoggedIn'] = False;
         }
         else{
             //The user is logged in
             $navbar = $navbarHelper->retrieveLoggedInBar();
-            //might change this to start using session..
-            $UserDetails['isLoggedIn'] = True;
-            $UserDetails['username'] = $this->getUser()->getName();
-            $UserDetails['id'] = $this->getUser()->getId();
         }
 
-
+        //Holds all the posts
         $data['users'] = $postRepository->get_posts();
+
+        //Rendering the index template
         return $this->render('/index/index.html.twig', ['navbar' => $navbar,
-            'UserDetails' => $UserDetails, 'data' => $data,
+             'data' => $data,
         ]);
 
 
@@ -65,37 +62,51 @@ class BlogController extends AbstractController
         //The user is logged in
         if($this->getUser())
         {
-
+            //The user is accessing an existent post
             if( $blog_id)
             {
-
+                //retrieving the existent post
                 $tupple = $postRepository->get_post_by_user($blog_id,$this->getUser()->getId());
+
+                //The post doesn't exist
                 if($tupple == NULL) {
                     $this->addFlash('error', 'Permission denied. You can only update your own posts.');
                     return $this->redirectToRoute('index');
-
-                    //return $this->redirectToRoute('permissionDenied');
                 }
+
+                //Data regarding the existent post
                 $data['blog_content'] = $tupple[0]['content']; //getting the post content
                 $data['blog_id'] = $blog_id;
+
+                //Navbar of the "Making a Post" section
                 $navbar = $navbarHelper->retrievePostBar();
+
+                //Rendering the Post template
                 return $this->render('/post/post.html.twig', ['navbar' => $navbar, 'data' => $data,
             ]);
 
             }
+            //The user is creating a new post
             else{
+
+                //Data regarding a new post
                 $data['blog_content'] = "";
                 $data['blog_id'] = "";
+
+                //Navbar of the "Making a post" section
                 $navbar = $navbarHelper->retrievePostBar();
+
+                //Rendering the Post template
                 return $this->render('/post/post.html.twig', ['navbar' => $navbar, 'data' => $data,
                 ]);
             }
 
         }
         else{
+            //User isn't logged in
             $this->addFlash('error', 'Permission denied. Please sign in.');
             return $this->redirectToRoute('index');
-//        return $this->redirectToRoute('loginRequired');
+
         }
 
 
@@ -114,26 +125,35 @@ class BlogController extends AbstractController
         //The user is logged in
         if($this->getUser())
         {
-
+            //CSRF attack security
             $token = $request->request->get("token");
             if (!$this->isCsrfTokenValid('post_form', $token)) {
                 return new Response("Operation not allowed", Response::HTTP_OK,
                     ['content-type' => 'text/plain']);
             }
 
+            //Editing an existing post
             if($blog_id)
             {
+                //Content inserted by the user
                 $content = $request->request->get('blog_content');
+
+                //Updating the DB
                 $postRepository->update_post($blog_id,$content);
+
+
                 $this->addFlash('success', 'Post successfully updated!');
                 return $this->redirectToRoute('index');
-               // return $this->redirectToRoute('postUpdated');
+
 
             }
             else{
+                //Making a new post
+
+                //Content inserted by the user
                 $content = $request->request->get('blog_content');
 
-
+                //Creating a Post object with the given information
                 $post = new Post();
                 $post->setContent($content);
                 $post->setCreatedAt(date("Y-m-d H:i:s"));
@@ -141,20 +161,19 @@ class BlogController extends AbstractController
                 $post->setUser($this->getUser());
                 $post->setLikes(0);
 
+                //Updating the DB
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($post);
                 $em->flush();
 
                 $this->addFlash('success', 'Post successfully created!');
                 return $this->redirectToRoute('index');
-                //return $this->redirectToRoute('postCreated');
             }
 
         }
         else{
             $this->addFlash('error', 'Permission denied. Please sign in.');
             return $this->redirectToRoute('index');
-           // return $this->redirectToRoute('loginRequired');
         }
 
 
