@@ -99,13 +99,10 @@ class BlogAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-        $referer = $request->headers->get('referer');
-        $request->getSession()->getFlashBag()->add('success', 'You have successfully logged in.');
-//        dump($referer);
-//        die;
-//        return new RedirectResponse($referer);
 
-//       return new RedirectResponse($this->urlGenerator->generate('loginSuccess'));
+        $name = $token->getUser()->getName();
+        $request->getSession()->getFlashBag()->add('success', 'Welcome '.$name.' .You have successfully logged in.');
+
         return new RedirectResponse($this->urlGenerator->generate('index'));
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
