@@ -101,7 +101,7 @@ class BlogAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
         }
 
         $name = $token->getUser()->getName();
-        $request->getSession()->getFlashBag()->add('success', 'Welcome '.$name.' .You have successfully logged in.');
+        $request->getSession()->getFlashBag()->add('success', 'Welcome '.$name.'. You have successfully logged in.');
 
         return new RedirectResponse($this->urlGenerator->generate('index'));
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
