@@ -3,11 +3,15 @@
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
-    {% for flashError in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+
+
+    {% for message in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger w-75 alert-dismissible fade show mx-auto text-center mt-3 " role="alert">{{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
     {% endfor %}
-
-
 
     <div class="bg-light w-75 mx-auto mt-3 p-4">
         <h1 class="text-center mt-3">Reset your password</h1>

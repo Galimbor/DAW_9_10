@@ -128,8 +128,8 @@ class BlogController extends AbstractController
             //CSRF attack security
             $token = $request->request->get("token");
             if (!$this->isCsrfTokenValid('post_form', $token)) {
-                return new Response("Operation not allowed", Response::HTTP_OK,
-                    ['content-type' => 'text/plain']);
+                $this->addFlash('error', 'Permission denied.');
+                return $this->redirectToRoute('index');
             }
 
             //Editing an existing post
